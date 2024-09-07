@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>proyect</title>
+    <style>
+        
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0000FF;
+            overflow: hidden;
+        }
+
+       
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff00ff;
+            border-radius: 50%;
+            transform: rotate(45deg);
+            animation: glow 2s infinite alternate, move 10s infinite linear;
+        }
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff00ff;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+        .heart::after {
+            top: 0;
+            left: -25px;
+        }
+
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #ff00ff;
+            }
+            to {
+                box-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 50px #ff00ff;
+            }
+        }
+
+        
+        @keyframes move {
+            from {
+                transform: translateY(100vh) rotate(45deg);
+            }
+            to {
+                transform: translateY(-100vh) rotate(45deg);
+            }
+        }
+
+       
+        .heart-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+        }
+        .heart-container div {
+            position: absolute;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+       
+        .login-box {
+            position: relative;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+       
+        #loadingScreen {
+            display: none;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+        }
+        .progress-bar-fill {
+            width: 0;
+            height: 30px;
+            background-color: #28a745;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+
+    
+        #questionScreen {
+            display: none;
+            text-align: center;
+        }
+        .option {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+     
+        .option-red {
+            background-color: red;
+        }
+
+      
+        #messageScreen {
+            display: none;
+            text-align: center;
+        }
+        #countdown {
+            font-size: 24px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="heart-container">
+       
+        <div class="heart" style="top: 10%; left: 20%; animation-duration: 12s;"></div>
+        <div class="heart" style="top: 30%; left: 70%; animation-duration: 8s;"></div>
+        <div class="heart" style="top: 60%; left: 40%; animation-duration: 10s;"></div>
+        <div class="heart" style="top: 80%; left: 80%; animation-duration: 7s;"></div>
+        <div class="heart" style="top: 50%; left: 50%; animation-duration: 11s;"></div>
+        <div class="heart" style="top: 15%; left: 90%; animation-duration: 9s;"></div>
+        <div class="heart" style="top: 70%; left: 10%; animation-duration: 6s;"></div>
+        <div class="heart" style="top: 25%; left: 60%; animation-duration: 13s;"></div>
+    </div>
+
+   
+    <div id="loginScreen" class="login-box">
+        <h2>Inicie Sesión</h2>
+        <input type="text" id="username" placeholder="Ingrese su usuario"><br>
+        <input type="password" id="password" placeholder="Ingrese contraseña"><br>
+        <button onclick="validateLogin()">Entrar</button>
+    </div>
+
+    
+    <div id="loadingScreen">
+        <h2>Cargando...</h2>
+        <div class="progress-bar">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    
+    <div id="questionScreen">
+        <h2>¿PUEDO SER TU NOVIO?</h2>
+        <div class="option" onclick="showMessageScreen()">Sí</div>
+        <div class="option option-red" onclick="showMessageScreen()">Sí en rojo</div>
+    </div>
+
+    
+    <div id="messageScreen">
+        <h2>TE AMO NIÑA BONITA</h2>
+        <div id="countdown">5</div>
+    </div>
+
+    <script>
+       
+        function validateLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username === 'saray' && password === 'saray') {
+                showLoadingScreen();
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        }
+
+       
+        function showLoadingScreen() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'block';
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progressFill').style.width = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    showQuestionScreen();
+                }
+            }, 500);
+        }
+
+        
+        function showQuestionScreen() {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('questionScreen').style.display = 'block';
+        }
+
+       
+        function showMessageScreen() {
+            document.getElementById('questionScreen').style.display = 'none';
+            document.getElementById('messageScreen').style.display = 'block';
+
+            let countdown = 5;
+            const countdownElement = document.getElementById('countdown');
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = 'Esto es para ti<3';
+                    setTimeout(() => {
+                        window.location.href = 'https://youtu.be/ZUh3TdPbcaw?si=i5fPMvWgc00EMxp-';
+                    }, 2000); 
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
+
+
+
+
